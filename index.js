@@ -8,14 +8,15 @@ const app = express();
 app.use(express.json());
 dotenv.config();
 
-const port = process.env.PORT || 5000 || 8080;
+port = process.env.PORT || 5000 || 8080;
 const db = process.env.DB_LOCAL;
 const dbonline = process.env.DB_ONLINE;
 
 // app.get("/", (req, res) => {
 //   res.send("Test the server locally");
 // });
-// connectingg to your mongodb server
+
+// connecting  my server to mongodb database using mongoose
 mongoose
   .connect(db, {
     useNewUrlParser: true,
@@ -57,12 +58,12 @@ app.post("/add", async (req, res) => {
 // Getting data from the database
 
 app.get("/getAllBalls", async (req, res) => {
-  const Balls = await Ball.find();
-  if (Balls) {
+  const ball = await Ball.find();
+  if (ball) {
     res.status(200).json({
       status: true,
       message: "Bingo, You doing great",
-      data: Balls,
+      data: ball,
     });
   } else {
     res.status(400).json({
@@ -75,7 +76,7 @@ app.get("/getAllBalls", async (req, res) => {
 // Deleting data from the database by it's ID
 
 // app.delete("/remove/:id", async (req, res) => {
-//   const = await Ball.findByIdAndDelete(req.params.id);
+//   const data = await Ball.findByIdAndDelete(req.params.id);
 // });
 // if (data) {
 //   res.status(200).json({
@@ -116,7 +117,7 @@ app.patch("/patch/:id", async (req, res) => {
   }
 });
 
-// Another way of editing the database using PUTCH
+// Another way of editing the database using PATCH
 // app.patch("/patch/:id", async (req, res) => {
 //   const { id } = req.params;
 //   const changes = req.body;
@@ -163,6 +164,6 @@ app.put("/put/:id", async (req, res) => {
   }
 });
 
-app.listen(8000, () => {
+app.listen(port, () => {
   console.log("server connected");
 });
